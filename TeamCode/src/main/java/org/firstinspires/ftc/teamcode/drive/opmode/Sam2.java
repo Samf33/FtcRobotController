@@ -43,4 +43,8 @@ public class Sam2 extends LinearOpMode {
             telemetry.update();
         }
     }
+    public void Claw() {
+        //color logic here
+    }
+
 }
