@@ -6,9 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Sam2 extends LinearOpMode {
+    ColorSensor colorSensor;
+
+
     DcMotor verticalSlide1, verticalSlide2;
     //    Servo box = hardwareMap.servo.get("box");
 //    Servo claw = hardwareMap.servo.get("claw");
@@ -16,6 +20,7 @@ public class Sam2 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        colorSensor = hardwareMap.colorSensor.get("colorSensor");
         verticalSlide1 = hardwareMap.dcMotor.get("verticalSlide1");
         verticalSlide2 = hardwareMap.dcMotor.get("verticalSlide2");
         horizontalSlide1 = hardwareMap.servo.get("horizontalSlide1");
@@ -49,11 +54,9 @@ public class Sam2 extends LinearOpMode {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
     public double[] getColors(){
-        ColorSensor colorsense;
-        test_color = hardwareMap.get(ColorSensor.class, "Sam2");
-        double red = map(colorSense.red(),0, 1, 0, 255);
-        double green = map(colorSense.green(),0, 1, 0, 255);
-        double blue = map(colorSense.blue(),0, 1, 0, 255);
+        double red = map(colorSensor.red(),0, 1, 0, 255);
+        double green = map(colorSensor.green(),0, 1, 0, 255);
+        double blue = map(colorSensor.blue(),0, 1, 0, 255);
         double[] rgb = {red, green, blue};
         return rgb;
     }
