@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -42,6 +43,19 @@ public class Sam2 extends LinearOpMode {
             telemetry.addData("vertical slide 2", verticalSlide2.getCurrentPosition());
             telemetry.update();
         }
+    }
+
+    public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+    public double[] getColors(){
+        ColorSensor colorsense;
+        test_color = hardwareMap.get(ColorSensor.class, "Sam2");
+        double red = map(colorSense.red(),0, 1, 0, 255);
+        double green = map(colorSense.green(),0, 1, 0, 255);
+        double blue = map(colorSense.blue(),0, 1, 0, 255);
+        double[] rgb = {red, green, blue};
+        return rgb;
     }
     public void Claw() {
         //color logic here
