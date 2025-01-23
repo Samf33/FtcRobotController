@@ -18,6 +18,8 @@ public class Sam2 extends LinearOpMode {
 //    Servo claw = hardwareMap.servo.get("claw");
     Servo horizontalSlide1, horizontalSlide2;
 
+    Servo claw;
+
     @Override
     public void runOpMode() throws InterruptedException {
         colorSensor = hardwareMap.colorSensor.get("colorSensor");
@@ -25,6 +27,7 @@ public class Sam2 extends LinearOpMode {
         verticalSlide2 = hardwareMap.dcMotor.get("verticalSlide2");
         horizontalSlide1 = hardwareMap.servo.get("horizontalSlide1");
         horizontalSlide2 = hardwareMap.servo.get("horizontalSlide2");
+        claw = hardwareMap.servo.get("claw");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -61,7 +64,12 @@ public class Sam2 extends LinearOpMode {
         return rgb;
     }
     public void Claw() {
-        //color logic here
+        if(claw.getPosition() < .5 && gamepad1.left_trigger > .3) {
+            claw.setPosition((claw.getPosition() + .01));
+        }
+         if (claw.getPosition() > .1 && gamepad1.right_trigger > .3) {
+             claw.setPosition(claw.getPosition() - .01);
+         }
     }
 
 }
