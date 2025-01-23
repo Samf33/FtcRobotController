@@ -20,11 +20,11 @@ public class Mac extends LinearOpMode {
 //    DcMotor slide = hardwareMap.dcMotor.get("slide");
     @Override
     public void runOpMode() throws InterruptedException {
-        slide = hardwareMap.dcMotor.get("slide");
-        arm = hardwareMap.dcMotor.get("arm");
-        claw = hardwareMap.servo.get("claw");
-        box = hardwareMap.servo.get("box");
-        claw.setDirection(Servo.Direction.REVERSE);
+//        slide = hardwareMap.dcMotor.get("slide");
+//        arm = hardwareMap.dcMotor.get("arm");
+//        claw = hardwareMap.servo.get("claw");
+//        box = hardwareMap.servo.get("box");
+//        claw.setDirection(Servo.Direction.REVERSE);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -43,27 +43,27 @@ public class Mac extends LinearOpMode {
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
-            telemetry.addData("slide", slide.getCurrentPosition());
-            telemetry.addData("box", box.getPosition());
-            telemetry.addData("arm", arm.getCurrentPosition());
-            telemetry.addData("claw", claw.getPosition());
-            telemetry.update();
-            if(gamepad1.left_trigger > .1 || gamepad1.right_trigger >.1) {
-                runSlide();
-            } else {
-                slide.setPower(0);
-            }
-            if(gamepad1.x || gamepad1.y) {
-                runBox();
-            }
-            if(gamepad1.left_bumper || gamepad1.right_bumper) {
-                runArm();
-            } else {
-                arm.setPower(0);
-            }
-            if(gamepad1.dpad_up|| gamepad1.dpad_right || gamepad1.dpad_left) {
-                runClaw();
-            }
+//            telemetry.addData("slide", slide.getCurrentPosition());
+//            telemetry.addData("box", box.getPosition());
+//            telemetry.addData("arm", arm.getCurrentPosition());
+//            telemetry.addData("claw", claw.getPosition());
+//            telemetry.update();
+//            if(gamepad1.left_trigger > .1 || gamepad1.right_trigger >.1) {
+//                runSlide();
+//            } else {
+//                slide.setPower(0);
+//            }
+//            if(gamepad1.x || gamepad1.y) {
+//                runBox();
+//            }
+//            if(gamepad1.left_bumper || gamepad1.right_bumper) {
+//                runArm();
+//            } else {
+//                arm.setPower(0);
+//            }
+//            if(gamepad1.dpad_up|| gamepad1.dpad_right || gamepad1.dpad_left) {
+//                runClaw();
+            //}
 
         }
     }
