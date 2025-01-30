@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class Sam2 extends LinearOpMode {
     ColorSensor colorSensor;
 
+    double horizontalPoses;
+    boolean plusUp = true;
+
 
     DcMotor verticalSlide1, verticalSlide2;
     //    Servo box = hardwareMap.servo.get("box");
@@ -29,7 +32,8 @@ public class Sam2 extends LinearOpMode {
         horizontalSlide2 = hardwareMap.servo.get("horizontalSlide2");
         claw = hardwareMap.servo.get("claw");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
+        horizontalPoses = horizontalSlide1.getPosition();
+        horizontalSlide2.setPosition(horizontalPoses);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waitForStart();
 
@@ -49,7 +53,32 @@ public class Sam2 extends LinearOpMode {
             telemetry.addData("horizontal slide 2", horizontalSlide2.getPosition());
             telemetry.addData("vertical slide 1", verticalSlide1.getCurrentPosition());
             telemetry.addData("vertical slide 2", verticalSlide2.getCurrentPosition());
+            telemetry.addData("mode", plusUp ? "plus up" : "plus Down");
             telemetry.update();
+            if(gamepad1.left_trigger > .15 || gamepad1.right_trigger > .15) {
+                runVerticalSlides();
+            } else {
+                verticalSlide1.setPower(0);
+                verticalSlide2.setPower(0);
+            }
+            if(gamepad1.left_bumper || gamepad1.right_bumper) {
+                runHorizontalSlides();
+            } else {
+                if(horizontalSlide2.getPosition() != horizontalPoses) {
+                    horizontalSlide2.setPosition(horizontalSlide1.getPosition());
+                    horizontalPoses = horizontalSlide1.getPosition();
+                }
+            }
+            if(gamepad1.dpad_up || gamepad1.dpad_down) {
+                if(plusUp) {
+                    runClawPlusUp();
+                } else {
+                    runClawPlusDown();
+                }
+            }
+            if(gamepad1.dpad_left || gamepad1.dpad_right) {
+                plusUp = !plusUp;
+            }
         }
     }
 
@@ -63,13 +92,50 @@ public class Sam2 extends LinearOpMode {
         double[] rgb = {red, green, blue};
         return rgb;
     }
-    public void Claw() {
-        if(claw.getPosition() < .5 && gamepad1.left_trigger > .3) {
+    public void runClawPlusUp() {
+        if(claw.getPosition() < .5 && gamepad1.dpad_down && !(getColors()[0] > 200)) {
             claw.setPosition((claw.getPosition() + .01));
+        } if (claw.getPosition() < .5 && !(getColors()[0] > 200) && !(gamepad1.dpad_down)) {
+            claw.setPosition(.2);
         }
-         if (claw.getPosition() > .1 && gamepad1.right_trigger > .3) {
+         if (claw.getPosition() > .1 && gamepad1.dpad_up) {
              claw.setPosition(claw.getPosition() - .01);
          }
+    }
+
+    public void runClawPlusDown() {
+        if(claw.getPosition() > .1 && gamepad1.dpad_down && !(getColors()[0] > 200)) {
+            claw.setPosition((claw.getPosition() - .01));
+        } else if (claw.getPosition() > .1 && !(getColors()[0] > 200) && !(gamepad1.dpad_down)) {
+            claw.setPosition(.4);
+        }
+        if (claw.getPosition() < .5 && gamepad1.dpad_up) {
+            claw.setPosition(claw.getPosition() - .01);
+        }
+    }
+
+    public void runVerticalSlides() {
+        if(gamepad1.right_trigger > .15 && verticalSlide1.getCurrentPosition() < .75)  {
+            verticalSlide1.setPower(gamepad1.right_trigger * .75);
+            verticalSlide2.setPower(gamepad1.right_trigger * .75);
+        }
+        else if(gamepad1.left_trigger > .15 && verticalSlide1.getCurrentPosition() > .1) {
+            verticalSlide1.setPower(-gamepad1.right_trigger * .75);
+            verticalSlide2.setPower(-gamepad1.right_trigger * .75);
+        }
+    }
+
+    public void runHorizontalSlides() {
+        if(gamepad1.right_bumper && horizontalPoses < .75) {
+            horizontalSlide1.setPosition(horizontalSlide1.getPosition() + .01);
+            horizontalSlide2.setPosition(horizontalSlide2.getPosition() + .01);
+            horizontalPoses += .01;
+        }
+        else if(gamepad1.left_bumper && horizontalPoses > .1) {
+            horizontalSlide1.setPosition(horizontalSlide1.getPosition() - .01);
+            horizontalSlide2.setPosition(horizontalSlide2.getPosition() - .01);
+            horizontalPoses -= .01;
+        }
     }
 
 }
