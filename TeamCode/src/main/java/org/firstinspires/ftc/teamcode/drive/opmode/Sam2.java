@@ -19,7 +19,7 @@ public class Sam2 extends LinearOpMode {
     DcMotor verticalSlide1, verticalSlide2;
     //    Servo box = hardwareMap.servo.get("box");
 //    Servo claw = hardwareMap.servo.get("claw");
-    Servo horizontalSlide1, horizontalSlide2;
+    Servo horizontalSlide1, horizontalSlide2, arm;
 
     Servo claw;
 
@@ -30,6 +30,7 @@ public class Sam2 extends LinearOpMode {
         verticalSlide2 = hardwareMap.dcMotor.get("verticalSlide2");
         horizontalSlide1 = hardwareMap.servo.get("horizontalSlide1");
         horizontalSlide2 = hardwareMap.servo.get("horizontalSlide2");
+        arm = hardwareMap.servo.get("arm");
         claw = hardwareMap.servo.get("claw");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         horizontalPoses = horizontalSlide1.getPosition();
@@ -49,11 +50,12 @@ public class Sam2 extends LinearOpMode {
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
-            telemetry.addData("horizontal slide 1", horizontalSlide1.getPosition());
-            telemetry.addData("horizontal slide 2", horizontalSlide2.getPosition());
-            telemetry.addData("vertical slide 1", verticalSlide1.getCurrentPosition());
-            telemetry.addData("vertical slide 2", verticalSlide2.getCurrentPosition());
-            telemetry.addData("mode", plusUp ? "plus up" : "plus Down");
+            telemetry.addData("Horizontal Slide 1", horizontalSlide1.getPosition());
+            telemetry.addData("Horizontal Slide 2", horizontalSlide2.getPosition());
+            telemetry.addData("Vertical Slide 1", verticalSlide1.getCurrentPosition());
+            telemetry.addData("Vertical Slide 2", verticalSlide2.getCurrentPosition());
+            telemetry.addData("Mode", plusUp ? "plus up" : "plus Down");
+            telemetry.addData("Arm", arm.getPosition());
             telemetry.update();
             if(gamepad1.left_trigger > .15 || gamepad1.right_trigger > .15) {
                 runVerticalSlides();
@@ -78,6 +80,9 @@ public class Sam2 extends LinearOpMode {
             }
             if(gamepad1.dpad_left || gamepad1.dpad_right) {
                 plusUp = !plusUp;
+            }
+            if(gamepad1.a || gamepad1.b) {
+                runArm();
             }
         }
     }
@@ -122,6 +127,14 @@ public class Sam2 extends LinearOpMode {
         else if(gamepad1.left_trigger > .15 && verticalSlide1.getCurrentPosition() > .1) {
             verticalSlide1.setPower(-gamepad1.right_trigger * .75);
             verticalSlide2.setPower(-gamepad1.right_trigger * .75);
+        }
+    }
+
+    public void runArm() {
+        if(gamepad1.a && arm.getPosition() < .75) {
+            arm.setPosition(arm.getPosition() + .01);
+        } else if(gamepad1.b && arm.getPosition() > .1) {
+            arm.setPosition(arm.getPosition() -.01);
         }
     }
 
