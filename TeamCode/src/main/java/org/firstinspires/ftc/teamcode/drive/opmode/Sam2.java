@@ -2,18 +2,19 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+@TeleOp(group = "drive")
 public class Sam2 extends LinearOpMode {
     ColorSensor colorSensor;
 
     double horizontalPoses;
-    boolean plusUp = true;
+    boolean plusUp = true, isBlue = false, isRed = false, isGreen = false;
 
 
     DcMotor verticalSlide1, verticalSlide2;
@@ -84,23 +85,39 @@ public class Sam2 extends LinearOpMode {
             if(gamepad1.a || gamepad1.b) {
                 runArm();
             }
+            findColor();
         }
     }
-
+    public void findColor() {
+        int iRed = getColors()[0];
+        int iBlue = getColors()[2];
+        int iGreen = getColors()[1];
+        isRed = false;
+        isGreen = false;
+        isBlue = false;
+        if(iRed > 400 && iBlue < 300 && iGreen < 275) {
+            isRed = true;
+        }  else if(iRed < 300 && iBlue > 400 && iGreen < 300) {
+            isBlue = true;
+        } else if(iRed > 400 && iBlue < 300 && iGreen > 400) {
+            isGreen = true;
+        }
+    }
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
-    public double[] getColors(){
-        double red = map(colorSensor.red(),0, 1, 0, 255);
-        double green = map(colorSensor.green(),0, 1, 0, 255);
-        double blue = map(colorSensor.blue(),0, 1, 0, 255);
-        double[] rgb = {red, green, blue};
+    public int[] getColors(){
+        colorSensor.enableLed(true);
+        int red = colorSensor.red();
+        int blue = colorSensor.blue();
+        int green = colorSensor.green();
+        int[] rgb = {red, green, blue};
         return rgb;
     }
     public void runClawPlusUp() {
-        if(claw.getPosition() < .5 && gamepad1.dpad_down && !(getColors()[0] > 200)) {
+        if(claw.getPosition() < .5 && gamepad1.dpad_down && !isBlue && !isBlue && !isGreen) {
             claw.setPosition((claw.getPosition() + .01));
-        } if (claw.getPosition() < .5 && !(getColors()[0] > 200) && !(gamepad1.dpad_down)) {
+        } if (claw.getPosition() < .5 && !(gamepad1.dpad_down) && !isBlue && !isRed && !isGreen) {
             claw.setPosition(.2);
         }
          if (claw.getPosition() > .1 && gamepad1.dpad_up) {
