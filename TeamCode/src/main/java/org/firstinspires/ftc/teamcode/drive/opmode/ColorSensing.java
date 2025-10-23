@@ -25,6 +25,11 @@ public class ColorSensing extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            if(gamepad1.a){
+                test_color.setGain(test_color.getGain() + 0.1f);
+            }
+
+
             // Get the normalized color reading from the sensor
             NormalizedRGBA color = test_color.getNormalizedColors();
 
@@ -41,6 +46,10 @@ public class ColorSensing extends LinearOpMode {
 
             // Display the sensor's gain (sensitivity)
             telemetry.addData("Gain", "%.3f", test_color.getGain());
+
+
+
+
 
             telemetry.update();
         }
