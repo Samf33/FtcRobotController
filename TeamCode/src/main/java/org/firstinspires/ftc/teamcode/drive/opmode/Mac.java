@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -28,10 +29,15 @@ public class Mac extends LinearOpMode {
 //        arm = hardwareMap.dcMotor.get("arm");
 //        claw = hardwareMap.servo.get("claw");
 //        box = hardwareMap.servo.get("box");
+        launchMotor = hardwareMap.dcMotor.get("launchMotor");
+        launchServoLeft = hardwareMap.get(CRServo.class,"launchServoLeft");
+        launchServoRight = hardwareMap.get(CRServo.class, "launchServoRight");
+        launchServoLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        launchServoRight.setDirection(DcMotorSimple.Direction.REVERSE);
 //        claw.setDirection(Servo.Direction.REVERSE);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
+//
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waitForStart();
 
@@ -43,15 +49,16 @@ public class Mac extends LinearOpMode {
                             -gamepad1.right_stick_x
                     )
             );
-
+//
             drive.update();
-
-            Pose2d poseEstimate = drive.getPoseEstimate();
+//
+//            Pose2d poseEstimate = drive.getPoseEstimate();
 //            telemetry.addData("slide", slide.getCurrentPosition());
 //            telemetry.addData("box", box.getPosition());
 //            telemetry.addData("arm", arm.getCurrentPosition());
 //            telemetry.addData("claw", claw.getPosition());
             telemetry.addData("alternate?", alt);
+            telemetry.addData("right, left", launchServoRight.getPower() + ", " + launchServoLeft.getPower());
             telemetry.update();
             if(gamepad1.left_trigger > .1 || gamepad1.right_trigger >.1) {
                 runLauncher();
@@ -59,7 +66,7 @@ public class Mac extends LinearOpMode {
                 launchMotor.setPower(0);
             }
             if(gamepad1.a){
-                alt = !alt
+                alt = !alt;
             }
 //            if(gamepad1.x || gamepad1.y) {
 //                runBox();
@@ -76,22 +83,22 @@ public class Mac extends LinearOpMode {
         }
     }
     public void runLauncher() {
-        if(gamepad1.right_trigger >= .1 && !alt) {
-            launchMotor.setPower(-gamepad1.right_trigger * .5);
-            launchServoRight.setPower(-gamepad1.right_trigger * .5);
-            launchServoLeft.setPower(gamepad1.right_trigger * .5);
-        } else if(gamepad1.left_trigger >= .1 && !alt) {
-            launchMotor.setPower(-gamepad1.right_trigger * .5);
-            launchServoRight.setPower(gamepad1.right_trigger * .5);
-            launchServoLeft.setPower(-gamepad1.right_trigger * .5);
-        } else if(gamepad1.right_trigger >= .1 && alt) {
-            launchMotor.setPower(gamepad1.right_trigger * .5);
-            launchServoRight.setPower(-gamepad1.right_trigger * .5);
-            launchServoLeft.setPower(gamepad1.right_trigger * .5);
-        } else if(gamepad1.left_trigger >= .1 && alt) {
-            launchMotor.setPower(gamepad1.right_trigger * .5);
-            launchServoRight.setPower(gamepad1.right_trigger * .5);
-            launchServoLeft.setPower(-gamepad1.right_trigger * .5);
+        if(gamepad1.right_trigger >= .1) {
+            launchMotor.setPower(-gamepad1.right_trigger*.75);
+            launchServoRight.setPower(1);
+            launchServoLeft.setPower(1);
+        } else if(gamepad1.left_trigger >= .1)  {
+            launchMotor.setPower(-gamepad1.left_trigger*.75);
+            launchServoRight.setPower(1);
+            launchServoLeft.setPower(1);
+//        } else if(gamepad1.right_trigger >= .1 && alt) {
+//            launchMotor.setPower(gamepad1.right_trigger * .5);
+//            launchServoRight.setPower(-1);
+//            launchServoLeft.setPower(-1);
+//        } else if(gamepad1.left_trigger >= .1 && alt) {
+//            launchMotor.setPower(gamepad1.left_trigger * .5);
+//            launchServoRight.setPower(-1);
+//            launchServoLeft.setPower(-1);
         } else {
             launchMotor.setPower(0);
             launchServoRight.setPower(0);
@@ -118,12 +125,12 @@ public class Mac extends LinearOpMode {
         }
 
     }
-    public void runBox() {
-        if(gamepad1.x) {
-            box.setPosition(box.getPosition() + .01);
-        } else if(gamepad1.y) {
-            box.setPosition(box.getPosition() - .01);
-        }
-    }
+//    public void runBox() {
+//        if(gamepad1.x) {
+//            box.setPosition(box.getPosition() + .01);
+//        } else if(gamepad1.y) {
+//            box.setPosition(box.getPosition() - .01);
+//        }
+//    }
 }
 
