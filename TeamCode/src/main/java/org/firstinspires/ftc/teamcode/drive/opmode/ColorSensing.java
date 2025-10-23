@@ -27,13 +27,15 @@ public class ColorSensing extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Light Detected", ((OpticalDistanceSensor) test_color).getLightDetected());
 
+            NormalizedRGBA color = test_color.getNormalizedColors();
+
             //Determining the amount of red, green, and blue
-            telemetry.addData("Red", "%.3f", test_color.red());
-            telemetry.addData("Green", "%.3f", test_color.green());
-            telemetry.addData("Blue", "%.3f", test_color.blue());
+            telemetry.addData("Red", "%.3f", color.red);
+            telemetry.addData("Green", "%.3f", color.green);
+            telemetry.addData("Blue", "%.3f", color.blue);
 
             //Determining HSV and alpha
-            telemetry.addData("Alpha", "%.3f", test_color.alpha());
+            telemetry.addData("Alpha", "%.3f", color.alpha);
 
             telemetry.addData("Gain", "%.3f", test_color.getGain());
 
