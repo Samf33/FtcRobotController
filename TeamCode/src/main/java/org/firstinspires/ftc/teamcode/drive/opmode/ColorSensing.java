@@ -21,10 +21,10 @@ import java.util.ArrayList;
 public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
 
-    private final float greenLenience = 20f;
+    private final float greenLenience = 4f;
     private final float purpleLenience = 15f;
 
-    private final float greenHue = 153f;
+    private final float greenHue = 155f;
     private final float purpleHue = 205f;
 
     @Override
@@ -65,8 +65,6 @@ public class ColorSensing extends LinearOpMode {
                 ball = "purple";
 
             telemetry.addData("Ball Color", "%s", ball);
-
-
 
 
             telemetry.update();
