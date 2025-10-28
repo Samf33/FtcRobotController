@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class ColorSensing extends LinearOpMode {
 
             // Display the alpha (transparency) component
             telemetry.addData("Alpha", "%.3f", color.alpha);
+
+            telemetry.addData("Distance (CM)", "%.3f", test_color.getDistance(DistanceUnit.CM));
 
             // Display the sensor's gain (sensitivity)
             telemetry.addData("Gain", "%.3f", test_color.getGain());
