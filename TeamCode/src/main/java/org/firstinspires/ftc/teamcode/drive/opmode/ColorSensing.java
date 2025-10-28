@@ -12,11 +12,16 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+import java.util.ArrayList;
 
 @TeleOp(group = "drive")
 public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
+
+    private final float lenience = 0.1f;
 
     @Override
     public void runOpMode() {
@@ -28,8 +33,6 @@ public class ColorSensing extends LinearOpMode {
             if(gamepad1.a){
                 test_color.setGain(test_color.getGain() + 0.1f);
             }
-
-
             // Get the normalized color reading from the sensor
             NormalizedRGBA color = test_color.getNormalizedColors();
 
@@ -48,10 +51,15 @@ public class ColorSensing extends LinearOpMode {
             telemetry.addData("Gain", "%.3f", test_color.getGain());
 
 
-
+            telemetry.addData("Hue", "%.3f", getHue(color));
 
 
             telemetry.update();
         }
+    }
+
+    private float getHue(NormalizedRGBA rgba)
+    {
+        return JavaUtil.colorToHue(rgba.toColor());
     }
 }
