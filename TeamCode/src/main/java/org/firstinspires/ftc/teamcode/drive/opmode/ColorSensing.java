@@ -45,6 +45,7 @@ public class ColorSensing extends LinearOpMode {
 
             telemetry.addData("Light Detected", test_color.getLightDetected());
 
+            telemetry.addData("Red", "%.3f", color.red);
             telemetry.addData("Green", "%.3f", color.green);
             telemetry.addData("Blue", "%.3f", color.blue);
 
