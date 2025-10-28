@@ -45,7 +45,6 @@ public class ColorSensing extends LinearOpMode {
 
             telemetry.addData("Light Detected", test_color.getLightDetected());
 
-            // Display the normalized color components (values between 0 and 1)
             telemetry.addData("Green", "%.3f", color.green);
             telemetry.addData("Blue", "%.3f", color.blue);
 
