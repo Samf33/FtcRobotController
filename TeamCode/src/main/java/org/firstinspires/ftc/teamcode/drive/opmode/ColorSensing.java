@@ -62,6 +62,9 @@ public class ColorSensing extends LinearOpMode {
 
 
             telemetry.addData("Hue", "%.3f", getHue(color));
+            telemetry.addData("Saturation", "%.3f", getSaturation(color));
+            telemetry.addData("Value", "%.3f", getValue(color));
+
 
             float hue = getHue(color);
             String ball = "no ball";
@@ -81,5 +84,15 @@ public class ColorSensing extends LinearOpMode {
     private float getHue(NormalizedRGBA rgba)
     {
         return JavaUtil.colorToHue(rgba.toColor());
+    }
+
+    private float getSaturation(NormalizedRGBA rgba)
+    {
+        return JavaUtil.colorToSaturation(rgba.toColor());
+    }
+
+    private float getValue(NormalizedRGBA rgba)
+    {
+        return JavaUtil.colorToValue(rgba.toColor());
     }
 }
