@@ -21,18 +21,21 @@ import java.util.ArrayList;
 public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
 
-    private final float lenience = 0.1f;
+    private final float greenLenience = 20f;
+    private final float purpleLenience = 15f;
+
+    private final float greenHue = 153f;
+    private final float purpleHue = 205f;
 
     @Override
     public void runOpMode() {
         test_color = hardwareMap.get(ColorRangeSensor.class, "test_color");
+        test_color.setGain(30.0f);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            if(gamepad1.a){
-                test_color.setGain(test_color.getGain() + 0.1f);
-            }
+
             // Get the normalized color reading from the sensor
             NormalizedRGBA color = test_color.getNormalizedColors();
 
@@ -52,6 +55,18 @@ public class ColorSensing extends LinearOpMode {
 
 
             telemetry.addData("Hue", "%.3f", getHue(color));
+
+            float hue = getHue(color);
+            String ball = "no ball";
+
+            if (hue - greenLenience < greenHue && greenHue < hue + greenLenience)
+                ball = "green";
+            else if (hue - purpleLenience < purpleHue && purpleHue < hue + purpleLenience)
+                ball = "purple";
+
+            telemetry.addData("Ball Color", "%s", ball);
+
+
 
 
             telemetry.update();
