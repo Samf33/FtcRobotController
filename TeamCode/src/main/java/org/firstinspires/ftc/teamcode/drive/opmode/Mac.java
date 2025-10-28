@@ -83,12 +83,12 @@ public class Mac extends LinearOpMode {
         }
     }
     public void runLauncher() {
-        if(gamepad1.right_trigger >= .1) {
-            launchMotor.setPower(-gamepad1.right_trigger*.75);
+        if(gamepad1.right_trigger >= .1 && !alt) {
+            launchMotor.setPower(gamepad1.right_trigger*.75);
             launchServoRight.setPower(1);
             launchServoLeft.setPower(1);
-        } else if(gamepad1.left_trigger >= .1)  {
-            launchMotor.setPower(-gamepad1.left_trigger*.75);
+        } else if(gamepad1.left_trigger >= .1 && alt)  {
+            launchMotor.setPower(gamepad1.left_trigger*.75);
             launchServoRight.setPower(1);
             launchServoLeft.setPower(1);
 //        } else if(gamepad1.right_trigger >= .1 && alt) {
