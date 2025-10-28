@@ -55,7 +55,6 @@ public class ColorSensing extends LinearOpMode {
 
             telemetry.addData("Gain", "%.3f", test_color.getGain());
 
-
             telemetry.addData("Hue", "%.3f", getHue(color));
             telemetry.addData("Saturation", "%.3f", getSaturation(color));
             telemetry.addData("Value", "%.3f", getValue(color));
