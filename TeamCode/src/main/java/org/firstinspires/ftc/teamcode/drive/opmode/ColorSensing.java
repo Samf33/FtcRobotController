@@ -31,7 +31,7 @@ public class ColorSensing extends LinearOpMode {
     @Override
     public void runOpMode() {
         test_color = hardwareMap.get(ColorRangeSensor.class, "test_color");
-        test_color.setGain(30.0f);
+        test_color.setGain(50.0f);
 
         waitForStart();
 
