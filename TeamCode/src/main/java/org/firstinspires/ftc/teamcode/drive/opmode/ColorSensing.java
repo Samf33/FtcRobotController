@@ -79,20 +79,7 @@ public class ColorSensing extends LinearOpMode {
 
 
             Ball ball = getBallColor();
-            String ballName = "If you see this something went wrong";
-
-            switch (ball)
-            {
-                case GREEN:
-                    ballName = "Green";
-                    break;
-                case PURPLE:
-                    ballName = "Purple";
-                    break;
-                case NONE:
-                    ballName = "No Ball";
-                    break;
-            }
+            String ballName = ball.name();
 
             telemetry.addData("Ball Color", "%s", ballName);
 
