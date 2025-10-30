@@ -17,16 +17,27 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @TeleOp(group = "drive")
 public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
 
     private final float greenLenience = 4f;
-    private final float purpleLenience = 15f;
+    private final float purpleLenience = 20f;
 
     private final float greenHue = 155f;
-    private final float purpleHue = 205f;
+    private final float purpleHue = 210f;
+
+    public enum Ball {
+        NONE,
+        GREEN,
+        PURPLE
+    }
+
+    public final int maxBalls = 3;
+    public List<Ball> loadedBalls = new ArrayList<Ball>();
 
     @Override
     public void runOpMode() {
@@ -36,10 +47,17 @@ public class ColorSensing extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if(gamepad1.a)
+            if (gamepad1.a)
                 test_color.setGain(test_color.getGain() + 0.1f);
-            if(gamepad1.b)
+            if (gamepad1.b)
                 test_color.setGain(test_color.getGain() - 0.1f);
+
+            if (gamepad1.left_trigger > 0.1)
+                loadBall();
+
+            if (gamepad1.right_trigger > 0.1)
+                unloadBall();
+
 
             NormalizedRGBA color = test_color.getNormalizedColors();
 
@@ -60,19 +78,49 @@ public class ColorSensing extends LinearOpMode {
             telemetry.addData("Value", "%.3f", getValue(color));
 
 
-            float hue = getHue(color);
-            String ball = "no ball";
+            Ball ball = getBallColor();
+            String ballName = "If you see this something went wrong";
 
-            if (hue - greenLenience < greenHue && greenHue < hue + greenLenience)
-                ball = "green";
-            else if (hue - purpleLenience < purpleHue && purpleHue < hue + purpleLenience)
-                ball = "purple";
+            switch (ball)
+            {
+                case GREEN:
+                    ballName = "Green";
+                    break;
+                case PURPLE:
+                    ballName = "Purple";
+                    break;
+                case NONE:
+                    ballName = "No Ball";
+                    break;
+            }
 
-            telemetry.addData("Ball Color", "%s", ball);
+            telemetry.addData("Ball Color", "%s", ballName);
 
 
             telemetry.update();
         }
+    }
+
+    public Ball getBallColor()
+    {
+        float hue = getHue(test_color.getNormalizedColors());
+
+        if (hue - greenLenience < greenHue && greenHue < hue + greenLenience)
+            return Ball.GREEN;
+        else if (hue - purpleLenience < purpleHue && purpleHue < hue + purpleLenience)
+            return Ball.PURPLE;
+        return Ball.NONE;
+    }
+    public void loadBall()
+    {
+        Collections.rotate(loadedBalls, 1);
+        loadedBalls.set(0, getBallColor());
+    }
+
+    public void unloadBall()
+    {
+        loadedBalls.set(2, Ball.NONE);
+        Collections.rotate(loadedBalls, 1);
     }
 
     private float getHue(NormalizedRGBA rgba)
