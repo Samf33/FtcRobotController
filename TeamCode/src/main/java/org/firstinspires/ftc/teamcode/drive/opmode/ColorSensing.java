@@ -52,6 +52,7 @@ public class ColorSensing extends LinearOpMode {
             if (gamepad1.b)
                 test_color.setGain(test_color.getGain() - 0.1f);
 
+            // TODO: Add debounce to left and right triggers
             if (gamepad1.left_trigger > 0.1)
                 loadBall();
 
