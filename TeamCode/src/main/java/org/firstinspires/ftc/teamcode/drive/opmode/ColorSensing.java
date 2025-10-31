@@ -1,20 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
-import android.graphics.ColorSpace;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -99,16 +91,33 @@ public class ColorSensing extends LinearOpMode {
             return Ball.PURPLE;
         return Ball.NONE;
     }
+    
     public void loadBall()
     {
-        Collections.rotate(loadedBalls, 1);
+        rotateTo(Ball.NONE, 0);
         loadedBalls.set(0, getBallColor());
     }
 
     public void unloadBall()
     {
         loadedBalls.set(2, Ball.NONE);
-        Collections.rotate(loadedBalls, 1);
+    }
+
+    public void rotate(int amount)
+    {
+        Collections.rotate(loadedBalls, amount);
+    }
+
+    public boolean rotateTo(Ball ball, int to)
+    {
+        int index = loadedBalls.indexOf(ball);
+
+        if (index == -1)
+            return false;
+
+        rotate(to - index);
+
+        return true;
     }
 
     private float getHue(NormalizedRGBA rgba)
