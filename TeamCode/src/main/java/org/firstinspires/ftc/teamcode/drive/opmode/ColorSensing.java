@@ -17,7 +17,7 @@ public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
 
     private final float greenLenience = 4f;
-    private final float purpleLenience = 20f;
+    private final float purpleLenience = 21f;
 
     private final float greenHue = 155f;
     private final float purpleHue = 210f;
@@ -29,7 +29,7 @@ public class ColorSensing extends LinearOpMode {
     }
 
     public final int maxBalls = 3;
-    public List<Ball> loadedBalls = new ArrayList<Ball>();
+    public List<Ball> loadedBalls = new ArrayList<Ball>(maxBalls);
 
     @Override
     public void runOpMode() {
@@ -38,18 +38,28 @@ public class ColorSensing extends LinearOpMode {
 
         waitForStart();
 
+        boolean loadDebounce = false;
+        boolean unloadDebounce = false;
+
         while (opModeIsActive()) {
             if (gamepad1.a)
                 test_color.setGain(test_color.getGain() + 0.1f);
             if (gamepad1.b)
                 test_color.setGain(test_color.getGain() - 0.1f);
 
-            // TODO: Add debounce to left and right triggers
-            if (gamepad1.left_trigger > 0.1)
+            if (gamepad1.left_trigger > 0.1 && !loadDebounce) {
                 loadBall();
+                loadDebounce = true;
+            }
+            else
+                loadDebounce = false;
 
-            if (gamepad1.right_trigger > 0.1)
+            if (gamepad1.right_trigger > 0.1 && !unloadDebounce) {
                 unloadBall();
+                unloadDebounce = true;
+            }
+            else
+                unloadDebounce = false;
 
 
             NormalizedRGBA color = test_color.getNormalizedColors();
