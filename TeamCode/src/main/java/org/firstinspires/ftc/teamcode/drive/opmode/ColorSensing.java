@@ -51,14 +51,14 @@ public class ColorSensing extends LinearOpMode {
                 loadBall();
                 loadDebounce = true;
             }
-            else
+            else if (gamepad1.left_trigger <= 0.1)
                 loadDebounce = false;
 
             if (gamepad1.right_trigger > 0.1 && !unloadDebounce) {
                 unloadBall();
                 unloadDebounce = true;
             }
-            else
+            else if (gamepad1.right_trigger <= 0.1)
                 unloadDebounce = false;
 
 
