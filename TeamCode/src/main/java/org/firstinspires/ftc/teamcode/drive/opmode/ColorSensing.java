@@ -16,7 +16,7 @@ import java.util.List;
 public class ColorSensing extends LinearOpMode {
     private ColorRangeSensor test_color;
 
-    private final float greenLenience = 4f;
+    private final float greenLenience = 20f;
     private final float purpleLenience = 21f;
 
     private final float greenHue = 155f;
