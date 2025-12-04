@@ -73,7 +73,8 @@ public class AutonomousTest extends LinearOpMode {
 
             drive.update();
 
-            telemetry.addData("Robot", "I am alive");
+            telemetry.addData("position", odo.getPosition());
+            telemetry.addData("target", wantedPose);
 
 
             telemetry.update();
