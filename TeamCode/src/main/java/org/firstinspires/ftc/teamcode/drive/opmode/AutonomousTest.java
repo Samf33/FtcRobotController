@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.path.LineSegment;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.hardware.gobilda.*;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@TeleOp(group = "drive")
+@Autonomous(group = "drive")
 public class AutonomousTest extends LinearOpMode {
 
     private double stopDistance = 0.5;
