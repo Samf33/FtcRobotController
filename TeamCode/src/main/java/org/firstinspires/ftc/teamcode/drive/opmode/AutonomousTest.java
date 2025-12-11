@@ -77,7 +77,7 @@ public class AutonomousTest extends LinearOpMode {
             telemetry.addData("position", odo.getPosition());
             telemetry.addData("target", wantedPose);
 
-
+            odo.update();
             telemetry.update();
         }
     }
