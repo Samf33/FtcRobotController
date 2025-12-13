@@ -18,6 +18,7 @@ public class FirstQualTesting extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        driveMode = false;
         smallLauncherWheels = hardwareMap.dcMotor.get("slWheels");
         mainLauncher = hardwareMap.dcMotor.get("ml");
         intake = hardwareMap.dcMotor.get("intake");
@@ -41,10 +42,10 @@ public class FirstQualTesting extends LinearOpMode {
             telemetry.addData("Servo speed", servoSpeeds);
             telemetry.addData("Launch Motor Speed" , launchSpeed);
             telemetry.addData("Intake speed", intakeSpeed);
-            telemetry.addData("Motor Direction" ,launchDirection ? "Forward":"Reverse");
-            telemetry.addData("Servo Direction", servoDirection ? "Forward":"Reverse");
-            telemetry.addData("Intake Direction", intakeDirection ? "Forward":"Reverse");
-            telemetry.addData("Mode", driveMode ? "Testing" : "Drive");
+//            telemetry.addData("Motor Direction" ,launchDirection ? "Forward":"Reverse");
+//            telemetry.addData("Servo Direction", servoDirection ? "Forward":"Reverse");
+//            telemetry.addData("Intake Direction", intakeDirection ? "Forward":"Reverse");
+//            telemetry.addData("Mode", driveMode ? "Testing" : "Drive");
             telemetry.addData("Editing Speed Of ", selectedStrings[selected % 3]);
             telemetry.addLine("Press A to change mode, B to change servo direction");
             telemetry.addLine("X to change launcher direction, y to change selected component for speed change");
