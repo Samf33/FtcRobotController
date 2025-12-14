@@ -18,7 +18,7 @@ public class FirstQualDummyAutoRed extends LinearOpMode {
         drive.setWeightedDrivePower(
             new Pose2d(0.25, 0.5, 0)
         );
-        sleep(500);
+        sleep(700);
         drive.setWeightedDrivePower(
                 new Pose2d(0, 0, 0)
         );
