@@ -16,7 +16,7 @@ public class FirstQualDummyAutoForward extends LinearOpMode {
         waitForStart();
 
         drive.setWeightedDrivePower(
-            new Pose2d(0, 0.5, 0)
+            new Pose2d(0.5, 0, 0)
         );
         sleep(700);
         drive.setWeightedDrivePower(
