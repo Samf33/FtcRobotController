@@ -1,0 +1,29 @@
+package org.firstinspires.ftc.teamcode.drive.opmode;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+@Autonomous
+public class FirstQualDummyAuto extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        waitForStart();
+
+        drive.setWeightedDrivePower(
+            new Pose2d(0, 0.5, 0)
+        );
+        sleep(500);
+        drive.setWeightedDrivePower(
+                new Pose2d(0, 0, 0)
+        );
+    }
+}
