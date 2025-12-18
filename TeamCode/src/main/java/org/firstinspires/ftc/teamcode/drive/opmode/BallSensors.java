@@ -17,12 +17,13 @@ public class BallSensors extends LinearOpMode {
     final double FOUND_MOVE_SPEED = 0.8;
 
     private Limelight3A limelight;
+    private SampleMecanumDrive drive;
 
     @Override
     public void runOpMode() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waitForStart();
 
