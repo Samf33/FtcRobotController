@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous
+@Autonomous(group = "drive")
 public class BallSensors extends LinearOpMode {
 
     final double SEARCH_SPEED = 0.2;
@@ -22,14 +22,16 @@ public class BallSensors extends LinearOpMode {
     @Override
     public void runOpMode() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-
+        limelight.start();
+        limelight.setPollRateHz(100);
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waitForStart();
 
-        limelight.pipelineSwitch(0); // Go to 0th pipeline
+        limelight.pipelineSwitch(1); // Go to 0th pipeline
 
         while (!isStopRequested()) {
+            telemetry.addData("limelight working", limelight.isRunning());
             LLResult ball = limelight.getLatestResult();
 
             if (ball != null && ball.isValid()) { //WE FOUND A BALL
@@ -45,7 +47,7 @@ public class BallSensors extends LinearOpMode {
     }
 
     public void ballLoop(double targetXOffset) {
-        boolean goRight = targetXOffset >= 0;
+        boolean goRight = targetXOffset <= 0;
         drive.setWeightedDrivePower(
                 new Pose2d(
                         FOUND_MOVE_SPEED,

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class FirstQualShootAuto extends LinearOpMode {
+public class FirstQualShootAutoRed extends LinearOpMode {
     DcMotor smallLauncherWheels, mainLauncher, intake,mainLauncher2;
     CRServo servoLaunchRight, servoLaunchLeft;
     Boolean maxSpeed = false;
@@ -38,20 +38,20 @@ public class FirstQualShootAuto extends LinearOpMode {
         drive.setWeightedDrivePower(
                 new Pose2d(0, 0, 0)
         );
-        mainLauncher.setPower(.825);
-        sleep(6000);
-        smallLauncherWheels.setPower(1);
-        sleep(3000);
-        servoLaunchLeft.setPower(1);
-        servoLaunchRight.setPower(1);
-        sleep(5000);
-        mainLauncher.setPower(0);
-        servoLaunchLeft.setPower(0);
-        servoLaunchRight.setPower(0);
-        mainLauncher.setPower(0);
-        smallLauncherWheels.setPower(0);
+    mainLauncher.setPower(.9);
+    sleep(6000);
+    smallLauncherWheels.setPower(1);
+    sleep(3000);
+    servoLaunchLeft.setPower(1);
+    servoLaunchRight.setPower(1);
+    sleep(5000);
+    mainLauncher.setPower(0);
+    servoLaunchLeft.setPower(0);
+    servoLaunchRight.setPower(0);
+    mainLauncher.setPower(0);
+    smallLauncherWheels.setPower(0);
         drive.setWeightedDrivePower(
-                new Pose2d(0, 0.5, 0)
+                new Pose2d(0, -0.5, 0)
         );
         sleep(700);
         drive.setWeightedDrivePower(
